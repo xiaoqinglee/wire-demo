@@ -9,8 +9,8 @@ import (
 
 type Message string
 
-func NewMessage() Message {
-	return Message("Hi there!")
+func NewMessage(phrase string) Message {
+	return Message("Hi there! " + phrase)
 }
 
 type Greeter struct {
@@ -55,7 +55,7 @@ func (e Event) Start() {
 //}
 
 func main() {
-	e, err := InitializeEvent()
+	e, err := InitializeEvent("祝你健康!")
 	if err != nil {
 		fmt.Printf("failed to create event: %s\n", err)
 		os.Exit(2)
