@@ -3,8 +3,11 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/k0kubun/pp/v3"
 	"os"
 	"time"
+	"wire-demo/pkgBar"
+	"wire-demo/pkgFoo"
 )
 
 type Message string
@@ -46,19 +49,35 @@ func (e Event) Start() {
 	fmt.Println(msg)
 }
 
-//func main() {
-//	message := NewMessage()
-//	greeter := NewGreeter(message)
-//	event := NewEvent(greeter)
-//
-//	event.Start()
-//}
+type BigStructType struct {
+	event   Event
+	pkgFooA *pkgFoo.TypeA
+	pkgFooB *pkgFoo.TypeB
+	pkgBarC *pkgBar.TypeC
+	pkgBarD *pkgBar.TypeD
+}
+
+func NewBigStructType(e Event, pkgFooA *pkgFoo.TypeA, pkgFooB *pkgFoo.TypeB, pkgBarC *pkgBar.TypeC, pkgBarD *pkgBar.TypeD) *BigStructType {
+	return &BigStructType{
+		event:   e,
+		pkgFooA: pkgFooA,
+		pkgFooB: pkgFooB,
+		pkgBarC: pkgBarC,
+		pkgBarD: pkgBarD,
+	}
+}
+
+func (final *BigStructType) Run() {
+	final.event.Start()
+	pp.Println(final)
+
+}
 
 func main() {
-	e, err := InitializeEvent("祝你健康!")
+	instance, err := InitializeBigStructTypeInstance("祝你健康!")
 	if err != nil {
-		fmt.Printf("failed to create event: %s\n", err)
+		fmt.Printf("failed to in half way: %s\n", err)
 		os.Exit(2)
 	}
-	e.Start()
+	instance.Run()
 }

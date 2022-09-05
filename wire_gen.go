@@ -6,14 +6,24 @@
 
 package main
 
+import (
+	"wire-demo/pkgBar"
+	"wire-demo/pkgFoo"
+)
+
 // Injectors from wire.go:
 
-func InitializeEvent(phrase string) (Event, error) {
+func InitializeBigStructTypeInstance(phrase string) (*BigStructType, error) {
 	message := NewMessage(phrase)
 	greeter := NewGreeter(message)
 	event, err := NewEvent(greeter)
 	if err != nil {
-		return Event{}, err
+		return nil, err
 	}
-	return event, nil
+	typeA := pkgFoo.NewTypeA()
+	typeB := pkgFoo.NewTypeB()
+	typeC := pkgBar.NewTypeC()
+	typeD := pkgBar.NewTypeD()
+	bigStructType := NewBigStructType(event, typeA, typeB, typeC, typeD)
+	return bigStructType, nil
 }

@@ -3,10 +3,14 @@
 
 package main
 
-import "github.com/google/wire"
+import (
+	"github.com/google/wire"
+	"wire-demo/pkgBar"
+	"wire-demo/pkgFoo"
+)
 
-func InitializeEvent(phrase string) (Event, error) {
+func InitializeBigStructTypeInstance(phrase string) (*BigStructType, error) {
 	//In Wire, initializers are known as "providers," functions which provide a particular type.
-	wire.Build(NewEvent, NewGreeter, NewMessage)
-	return Event{}, nil
+	wire.Build(NewMessage, NewGreeter, NewEvent, pkgFoo.PkgFooProviderSet, pkgBar.PkgBarProviderSet, NewBigStructType)
+	return &BigStructType{}, nil
 }
